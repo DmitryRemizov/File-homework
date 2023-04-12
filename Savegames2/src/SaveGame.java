@@ -14,9 +14,9 @@ public class SaveGame {
         String folderPath = "/users/rdk/Games/savegames/";
 
         // Создание файлов сохранений
-        save(progress1, folderPath + "progress1.ser");
-        save(progress2, folderPath + "progress2.ser");
-        save(progress3, folderPath + "progress3.ser");
+        save(progress1, folderPath + "progress1.dat");
+        save(progress2, folderPath + "progress2.dat");
+        save(progress3, folderPath + "progress3.dat");
 
         // Запаковка файлов сохранений в архив
         zipFolder(folderPath, folderPath + "saves.zip");

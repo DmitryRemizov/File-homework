@@ -1,22 +1,16 @@
+
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws RuntimeException, IOException {
         // Создаем список директорий
-        List<String> directories = new ArrayList<>();
-        directories.add("/Users/rdk/Games/src");
-        directories.add("/Users/rdk/Games/res");
-        directories.add("/Users/rdk/Games/savegames");
-        directories.add("/Users/rdk/Games/temp");
-        directories.add("/Users/rdk/Games/src/main");
-        directories.add("/Users/rdk/Games/src/test");
-        directories.add("/Users/rdk/Games/res/drawables");
-        directories.add("/Users/rdk/Games/res/vectors");
-        directories.add("/Users/rdk/Games/res/icons");
+        List<String> directories = List.of("/Users/rdk/Games/src", "/Users/rdk/Games/res",
+                "/Users/rdk/Games/savegames", "/Users/rdk/Games/temp", "/Users/rdk/Games/src/main",
+                "/Users/rdk/Games/src/test", "/Users/rdk/Games/res/drawables",
+                "/Users/rdk/Games/res/vectors","/Users/rdk/Games/res/icons");
 
         // Создаем директории
         for (String directory : directories) {
@@ -46,16 +40,18 @@ public class Main {
 
     static void createDirectory(String path) throws IOException {
         File dir = new File(path);
-        dir.mkdir();
         StringBuilder log = new StringBuilder();
-        log.append("Directory was created successfully");
+        if (dir.mkdir()) {
+            log.append("Directory was created successfully");
+        } else log.append("Directory was not created");
     }
 
     static File createFile(String path, String fileName) throws IOException {
         File file = new File(path, fileName);
-        file.createNewFile();
         StringBuilder log = new StringBuilder();
-        log.append("File was created successfully");
+        if (file.createNewFile()) {
+            log.append("File was created successfully");
+        } else log.append("File was not created");
         return file;
     }
 }
