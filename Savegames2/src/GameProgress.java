@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.List;
 
 public class GameProgress implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,4 +25,5 @@ public class GameProgress implements Serializable {
                 ", distance=" + distance +
                 '}';
     }
+
 }

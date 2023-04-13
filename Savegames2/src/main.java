@@ -2,29 +2,24 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class SaveGame {
+public class main {
 
     public static void main(String[] args) {
         // Создание трех экземпляров класса GameProgress
         GameProgress progress1 = new GameProgress(100, 5, 1, 0);
         GameProgress progress2 = new GameProgress(80, 3, 2, 500);
         GameProgress progress3 = new GameProgress(50, 1, 3, 1000);
-
         // Путь до папки savegames
         String folderPath = "/users/rdk/Games/savegames/";
-
         // Создание файлов сохранений
         save(progress1, folderPath + "progress1.dat");
         save(progress2, folderPath + "progress2.dat");
         save(progress3, folderPath + "progress3.dat");
-
         // Запаковка файлов сохранений в архив
-        zipFolder(folderPath, folderPath + "saves.zip");
-
+        zipFolder( folderPath,folderPath + "saves.zip");
         // Удаление файлов сохранений, лежащих вне архива
         deleteFiles(folderPath);
     }
-
     private static void save(GameProgress progress, String path) {
         try (
                 FileOutputStream fos = new FileOutputStream(path);
@@ -35,19 +30,21 @@ public class SaveGame {
             e.printStackTrace();
         }
     }
-
-    private static void zipFolder(String sourceFolder, String zipFilePath) {
+    public static void zipFolder(String sourceFolder, String zipFilePath) {
         try (
                 FileOutputStream fos = new FileOutputStream(zipFilePath);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            File fileToZip = new File(sourceFolder);
-            addFilesToZip(zos, fileToZip);
+            File[] files = new File(sourceFolder).listFiles();
+            for (File file : files) {
+                if (!file.getName().equals("saves.zip")) {
+                    addFilesToZip(zos, file);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     private static void addFilesToZip(ZipOutputStream zos, File fileToZip) {
         if (fileToZip.isHidden()) {
             return;
@@ -59,7 +56,6 @@ public class SaveGame {
             }
             return;
         }
-
         try (FileInputStream fis = new FileInputStream(fileToZip)) {
             String zipFilePath = fileToZip.getName();
             ZipEntry zipEntry = new ZipEntry(zipFilePath);
@@ -74,7 +70,6 @@ public class SaveGame {
             e.printStackTrace();
         }
     }
-
     private static void deleteFiles(String folderPath) {
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
